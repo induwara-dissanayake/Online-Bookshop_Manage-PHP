@@ -79,8 +79,8 @@ if (!isset($_SESSION['username'])) {
         </div>
         <div class="col-md-4 mb-4">
             <div class="banner">
-                <a href="#">
-                    <h2>Payments</h2>
+                <a href="payment.php">
+                    <h2>Finance</h2>
                 </a>
             </div>
         </div>

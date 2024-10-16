@@ -77,7 +77,6 @@ if (isset($_POST['admin_login'])) {
         if ($password==$row_data['password']) {
 
             $_SESSION['username'] = $username;            
-                echo "<script>alert('Login successful')</script>";
                 echo "<script>window.open('index.php','_self')</script>";
          
         } else {

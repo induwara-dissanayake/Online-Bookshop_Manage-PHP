@@ -19,8 +19,20 @@ if (isset($_GET['id'])) {
     $result = mysqli_query($connection, $sql);
     $order_data = mysqli_fetch_assoc($result);
     $customer_name = $order_data['customer_name'];
-    $order_date = $order_data['order_date']; // Fixed variable name
+    $customer_id = $order_data['customer_id'];
 
+    $sqlloan = "SELECT * FROM loan WHERE customer_id=$customer_id";
+    $resultloan = mysqli_query($connection, $sqlloan);
+    $loandata=mysqli_fetch_assoc($resultloan);
+    $num_row_loan = mysqli_num_rows($resultloan);
+
+    if($num_row_loan>0){
+
+        $loan=$loandata['loan'];
+    }
+
+
+    $order_date = $order_data['order_date']; 
     $sql1 = "SELECT * FROM order_detail WHERE order_id=$order_id AND status=0";
     $result1 = mysqli_query($connection, $sql1);
     $num_row1 = mysqli_num_rows($result1);
@@ -42,6 +54,7 @@ if (isset($_GET['id'])) {
    
         $payment =$num_row1 * 50 + (30*($weeks - 2)+30) * $num_row1;
     }
+
 }
 ?>
 
@@ -71,6 +84,15 @@ if (isset($_GET['id'])) {
             <h3 class="col-md-3 mt-4">Order Date: <?php echo $order_date; ?></h3>
             <h3 class="col-md-3 mt-4">Total Books: <?php echo $num_row1; ?></h3>
             <h3 class="col-md-3 mt-4">Total Payment: Rs. <?php echo $payment; ?></h3>
+            <?php 
+             if($num_row_loan>0){
+
+                $loan=$loandata['loan'];
+                echo'<h3 class="col-md-3 mt-4">Loan Payment: Rs.'.$loan.'</h3>';
+                echo'<h3 class="col-md-3 mt-4">Total: Rs.'.$loan+$payment.'</h3>';
+        
+            }
+            ?>
         </div>
         <form action="" method="post">
             <input type="hidden" name="order_id" value="<?php echo $order_id; ?>">
@@ -95,6 +117,8 @@ if (isset($_GET['id'])) {
                     <?php } ?>
                 </tbody>
             </table>
+   
+           
             <button type="submit" class="btn btn-primary">Complete Payment</button>
         </form>
     </div>
@@ -107,6 +131,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $order_id = $_POST['order_id'];
     $selected_books = $_POST['selected_books'];
     $current_date = date('Y-m-d');
+
 
     if (!empty($selected_books)) {
         $selected_books_str = implode(',', $selected_books);
@@ -130,6 +155,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 // If all books are completed, update the orders table
                 $sql_update_order = "UPDATE orders SET status=1,return_date='$current_date' WHERE order_id=$order_id";
                 mysqli_query($connection, $sql_update_order);
+
+                if($num_row_loan>0){
+
+                    $sql_update_loan = "DELETE FROM loan WHERE customer_id=$customer_id";
+                    mysqli_query($connection, $sql_update_loan);
+                    
+                }
+
             }
 
             echo "<script>window.open('order_pending.php','_self')</script>.";

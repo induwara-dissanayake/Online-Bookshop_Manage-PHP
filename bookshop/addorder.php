@@ -63,6 +63,9 @@ if (isset($_POST['place_order'])) {
     $return_date_str = $return_date->format('Y-m-d');
 
     $customer_id = $_POST['customer_id'];
+    $loan = $_POST['loan'];
+
+
 
     $customer_sql = "SELECT * FROM customer where customer_id=$customer_id";
     $customer_result = mysqli_query($connection, $customer_sql);
@@ -98,9 +101,14 @@ if (isset($_POST['place_order'])) {
     $_SESSION['book_ids'] = [];
     $_SESSION['books'] = [];
 
-    // Redirect to a confirmation page or show a success message
-    // header('Location: order_confirmation.php?order_id=' . $order_id);
-    // exit;
+    if($loan >0){
+
+        $sqlloan = "insert into loan (customer_id,loan) values ($customer_id,$loan)";
+        mysqli_query($connection, $sqlloan);
+    }
+
+
+
 }
 ?>
 <!DOCTYPE html>
@@ -199,7 +207,11 @@ if (isset($_POST['place_order'])) {
         <div class="mt-5">
             <form action="" method="post">
                 <div class="row ">
+
                     <div class="col-md-5 mx-3">
+                <label for="loan">Loan </label>
+                <input type="text" name="loan"><br><br>
+
                         <label for="">Select Customer</label>
                         <select name="customer_id" required class="form-select mySelect2" id="selectCustomer">
                             <option value="">-- Select Customer --</option>
@@ -218,11 +230,14 @@ if (isset($_POST['place_order'])) {
                             ?>
                         </select>
                     </div>
+
                     <div class="col-md-3 mb-3 text-end">
                         <br />
                         <button type="submit" name="place_order" class="btn btn-primary">Place Order</button>
                     </div>
                 </div>
+                            <br><br>
+       
             </form>
         </div>
     </div>
