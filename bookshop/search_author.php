@@ -1,0 +1,49 @@
+<?php
+include('connect.php');
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Get query from POST request
+$query = isset($_POST['query']) ? $_POST['query'] : '';
+$query = mysqli_real_escape_string($connection, $query);
+
+// Prepare SQL query based on search input
+$sql = "SELECT * FROM author";
+if ($query != '') {
+    $sql .= " WHERE author_id LIKE '%$query%' OR author_name LIKE '%$query%'";
+}
+
+$result = mysqli_query($connection, $sql);
+
+if (!$result) {
+    echo "Error: " . mysqli_error($connection);
+    exit;
+}
+
+if (mysqli_num_rows($result) > 0) {
+    echo '<table class="table table-hover" id="tables">
+            <thead>
+                <tr>
+                    <th>Author ID</th>
+                    <th>Author Name</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>';
+    while ($row = mysqli_fetch_assoc($result)) {
+        echo '<tr>
+                <td>' . $row['author_id'] . '</td>
+                <td>' . $row['author_name'] . '</td>
+                <td>
+                    <center>
+                        <a href="author_details.php?id=' . $row['author_id'] . '" class="btn btn-success">Edit</a>
+                    </center>
+                </td>
+              </tr>';
+    }
+    echo '</tbody>
+          </table>';
+} else {
+    echo '<br><center><h2><b><i>No Results</i></b></h2></center>';
+}
+?>

@@ -1,0 +1,144 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* body {
+  background-image: url('./img/home.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+} */
+
+.logo {
+  position: relative;
+  width: 12%;
+  height: auto;
+  top: 7px;
+}
+
+#header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 80px;
+  background: #e3e6f3;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.06);
+  z-index: 999;
+  position: sticky;
+  top: 0;
+  left: 0;
+  height: 80px;
+  width: 100%;
+}
+
+#navbar {
+  display: flex;
+  align-items: center;
+  height: 100px;
+}
+
+#navbar li {
+  list-style: none;
+  padding: 0 20px;
+  position: relative;
+}
+
+#navbar li a {
+  text-decoration: none;
+  font-size: 22px;
+  font-weight: 600;
+  color: #1a1a1a;
+  transition: 1s ease;
+}
+
+#navbar li a::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 2px;
+  background-color: #009970;
+  visibility: hidden;
+  transition: 0.3s ease-in-out;
+}
+
+#navbar li a:hover::before {
+  width: 100%;
+  visibility: visible;
+}
+
+.dropdown .dropdown-menu {
+  display: none;
+}
+
+.dropdown:hover > .dropdown-menu,
+.dropend:hover > .dropdown-menu {
+  display: block;
+  margin-top: .125em;
+}
+
+.dropend:hover > .dropdown-menu {
+  position: absolute;
+  top: 0;
+  left: 100%;
+}
+
+.row_banner {
+  margin-top: 100px;
+}
+
+.banner {
+  border: 2px solid #ddd;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
+  transition: all 0.3s ease;
+  background-color: yellowgreen;
+}
+
+.banner:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  transform: translateY(-5px);
+}
+
+.banner a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.banner h2 {
+  margin-top: 0;
+  font-size: 24px;
+}
+
+.search_box {
+  width: 600px;
+  background: #fff;
+  margin: 50px auto 0;
+  border-radius: 5px;
+}
+
+.row_search {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+.book_search{
+  flex: 1;
+  height: 30px;
+  background: transparent;
+  font-size: 18px;
+  color: #333;
+}
+
+.book_button{
+  background: transparent;
+  border: 0;
+  outline: 0;
+
+}
+
