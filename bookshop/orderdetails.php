@@ -84,18 +84,24 @@ if (isset($_GET['id'])) {
             <h3 class="col-md-3 mt-4">Order Date: <?php echo $order_date; ?></h3>
             <h3 class="col-md-3 mt-4">Total Books: <?php echo $num_row1; ?></h3>
             <h3 class="col-md-3 mt-4">Total Payment: Rs. <?php echo $payment; ?></h3>
-            <?php 
-             if($num_row_loan>0){
 
-                $loan=$loandata['loan'];
-                echo'<h3 class="col-md-3 mt-4">Loan Payment: Rs.'.$loan.'</h3>';
-                echo'<h3 class="col-md-3 mt-4">Total: Rs.'.$loan+$payment.'</h3>';
-        
-            }
-            ?>
+
         </div>
         <form action="" method="post">
             <input type="hidden" name="order_id" value="<?php echo $order_id; ?>">
+
+            <?php 
+if($num_row_loan > 0){
+    $loan = $loandata['loan'];
+    echo '<h3 class="col-md-3 mt-4">Loan Payment: Rs. ' . $loan . '</h3>';
+    echo '<h3 class="col-md-3 mt-4">Total: Rs. ' . ($loan + $payment) . '</h3>';
+    // Add a checkbox for loan payment
+    echo '<div class="form-check">';
+    echo '<input class="form-check-input" type="checkbox" name="loan_paid" id="loanPaid">';
+    echo '<label class="form-check-label" for="loanPaid">Loan Paid</label>';
+    echo '</div>';
+}
+?>
             <table class="table table-hover mt-5" id="tables">
                 <thead>
                     <tr>
@@ -131,7 +137,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $order_id = $_POST['order_id'];
     $selected_books = $_POST['selected_books'];
     $current_date = date('Y-m-d');
-
+    
+    // Check if the loan checkbox is checked
+    $loan_paid = isset($_POST['loan_paid']) ? true : false;
+    if ($loan_paid) {
+        // If the loan is marked as paid, delete it from the loan table
+        $sql_update_loan = "DELETE FROM loan WHERE customer_id=$customer_id";
+        mysqli_query($connection, $sql_update_loan);
+    }
 
     if (!empty($selected_books)) {
         $selected_books_str = implode(',', $selected_books);
@@ -139,13 +152,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Update the status of the selected books in the order_detail table
         $sql = "UPDATE order_detail SET status=1 WHERE order_id=$order_id AND book_id IN ($selected_books_str)";
         if (mysqli_query($connection, $sql)) {
-
             foreach ($selected_books as $book_id) {
                 $sql_update_qty = "UPDATE qty SET qty=qty+1 WHERE book_id=$book_id";
                 if (!mysqli_query($connection, $sql_update_qty)) {
                     echo "Error updating qty for book_id $book_id: " . mysqli_error($connection);
                 }
             }
+
             // Check if all books in the order are now complete
             $sql_check_all = "SELECT COUNT(*) as count FROM order_detail WHERE order_id=$order_id AND status=0";
             $result_check_all = mysqli_query($connection, $sql_check_all);
@@ -153,27 +166,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             if ($row_check_all['count'] == 0) {
                 // If all books are completed, update the orders table
-                $sql_update_order = "UPDATE orders SET status=1,return_date='$current_date' WHERE order_id=$order_id";
+                $sql_update_order = "UPDATE orders SET status=1, return_date='$current_date' WHERE order_id=$order_id";
                 mysqli_query($connection, $sql_update_order);
 
-                if($num_row_loan>0){
-
-                    $sql_update_loan = "DELETE FROM loan WHERE customer_id=$customer_id";
-                    mysqli_query($connection, $sql_update_loan);
-                    
-                }
-
+       
             }
 
-            echo "<script>window.open('order_pending.php','_self')</script>.";
+            echo "<script>window.open('order_pending.php','_self')</script>";
         } else {
             echo "Error updating records: " . mysqli_error($connection);
         }
     } else {
-        echo "<script>aleart(No books are selected)</script>.";
+        echo "<script>alert('No books are selected');</script>";
     }
-} else {
-    echo "<script>aleart(No books are selected)</script>.";
 }
 
 
