@@ -45,7 +45,11 @@ if (mysqli_num_rows($result) > 0) {
                 <td>' . $row['author_name'] . '</td>
                 <td>' . $row['isbn'] . '</td>
                 <td>' . $qty_data['qty'] . '</td>
-
+                <td>
+                    <center>
+                        <a href="availble_history.php?id=' . $row['book_id'] . '" class="btn btn-primary">Details</a>
+                    </center>
+                </td>
 
               </tr>';   
     }
