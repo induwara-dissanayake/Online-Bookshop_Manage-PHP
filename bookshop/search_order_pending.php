@@ -16,7 +16,7 @@ if ($query != '') {
     AND (
         order_id LIKE '%$query%' 
         OR customer_name LIKE '%$query%' 
-        OR return_date LIKE '%$query%' 
+        OR REPLACE(return_date, '-', '/') LIKE '%$query%' 
         OR customer_name IN (
             SELECT customer_name 
             FROM customer 
@@ -24,10 +24,8 @@ if ($query != '') {
         )
     )
 ";
-}
-else{
-    $sql = "SELECT * FROM orders where status=0";
-
+} else {
+    $sql = "SELECT * FROM orders WHERE status = 0";
 }
 
 $result = mysqli_query($connection, $sql);
@@ -46,26 +44,22 @@ if (mysqli_num_rows($result) > 0) {
                     <th>Order Date</th>
                     <th>Return Date</th>
                     <th>Status</th>
-
                 </tr>
             </thead>
             <tbody>';
     while ($row = mysqli_fetch_assoc($result)) {
-         
-            echo '<tr>
+        echo '<tr>
             <td>' . $row['order_id'] . '</td>
             <td>' . $row['customer_name'] . '</td>
             <td>' . $row['order_date'] . '</td>
-            <td>' . $row['return_date'] . '</td>
+            <td>' . str_replace('-', '/', $row['return_date']) . '</td>
             <td><b>Pending</b></td>
-    
-      
-                <td>
-                    <center>
-                        <a href="orderdetails.php?id=' . $row['order_id'] . '" class="btn btn-primary">Details</a>
-                    </center>
-                </td>
-              </tr>';
+            <td>
+                <center>
+                    <a href="orderdetails.php?id=' . $row['order_id'] . '" class="btn btn-primary">Details</a>
+                </center>
+            </td>
+          </tr>';
     }
     echo '</tbody>
           </table>';
