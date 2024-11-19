@@ -13,6 +13,7 @@ if (isset($_GET['id'])) {
 
     $customer_name=$customer_data['customer_name'];
     $contact=$customer_data['contact'];
+    $registation_date=$customer_data['date'];
 
 
 } else {
@@ -38,8 +39,10 @@ if (isset($_GET['id'])) {
         <h1 class="text-center mt-3">Customer History</h1>
 
         <div class="row">
-            <h3 class="col-md-5 mt-4 mx-3">Customer Name: <?php echo $customer_name; ?></h3>
-            <h3 class="col-md-5 mt-4 mx-3">Mobile Number: <?php echo $contact; ?></h3>
+            <h3 class="col-md-4 mt-4 mx-3">Customer Name: <?php echo $customer_name; ?></h3>
+            <h3 class="col-md-3 mt-4 mx-3">Contact: <?php echo $contact; ?></h3>
+            <h3 class="col-md-4 mt-4 mx-3">Registattion Date: <?php echo $registation_date; ?></h3>
+
 
         </div>
 
