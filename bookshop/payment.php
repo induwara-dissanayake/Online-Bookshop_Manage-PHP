@@ -24,20 +24,29 @@ include('common.php');
         <h1 class="text-center mt-3">Finance Section</h1>
 
         <div class="row row_banner ">
-            <div class="col-md-6 mb-6">
+            <div class="col-md-4 mb-4">
                 <div class="banner">
                     <a href="book_value.php">
                         <h2>Book Values</h2>
                     </a>
                 </div>
             </div>
-            <div class="col-md-6 mb-6">
+            <div class="col-md-4 mb-4">
                 <div class="banner">
                     <a href="loan.php">
                         <h2>Loan</h2>
                     </a>
                 </div>
             </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="banner">
+                    <a href="payment_details.php">
+                        <h2>Payment</h2>
+                    </a>
+                </div>
+            </div>
+
 
         
 

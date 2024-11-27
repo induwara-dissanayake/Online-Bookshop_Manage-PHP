@@ -170,28 +170,30 @@ if (isset($_POST['place_order'])) {
             </div>
             <div class="card-body">
                 <?php
+                $count=0;
                 if (!empty($_SESSION['books'])) {
                 ?>
                     <div class="table-responsive mb-3">
                         <table class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>Book ID</th>
+                                    <th>Count</th>
                                     <th>Book Name</th>
                                     <th>Author Name</th>
                                     <th>Remove</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($_SESSION['books'] as $book) : ?>
+                                <?php foreach ($_SESSION['books'] as $book) : $count++?>
                                     <tr>
-                                        <td><?= $book['book_id']; ?></td>
+                                        <td><?= $count;?></td>
                                         <td><?= $book['book_name']; ?></td>
                                         <td><?= $book['author_name']; ?></td>
                                         <td>
                                             <a href="?index=<?= $book['book_id']; ?>" class="btn btn-danger">Remove</a>
                                         </td>
                                     </tr>
+                                    
                                 <?php endforeach; ?>
                             </tbody>
                         </table>
