@@ -59,7 +59,7 @@ if (isset($_POST['place_order'])) {
     $current_date = date('Y-m-d');
 
     $return_date = new DateTime($current_date); // Start from the current date
-    $return_date->modify('+14 days'); // Add 14 days
+    $return_date->modify('+13 days'); // Add 14 days
     $return_date_str = $return_date->format('Y-m-d');
 
     $customer_id = $_POST['customer_id'];
