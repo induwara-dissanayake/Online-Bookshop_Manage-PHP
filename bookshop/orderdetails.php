@@ -37,6 +37,7 @@ if (isset($_GET['id'])) {
     $result1 = mysqli_query($connection, $sql1);
     $num_row1 = mysqli_num_rows($result1);
 
+    date_default_timezone_set('Asia/Colombo');
     $current_date = date('Y-m-d');
     $dateDifference = calculateDateDifference($order_date, $current_date);
 
@@ -166,6 +167,7 @@ if (isset($_GET['id'])) {
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $order_id = $_POST['order_id'];
     $selected_books = $_POST['selected_books'];
+    date_default_timezone_set('Asia/Colombo');
     $current_date = date('Y-m-d');
 
     $loan_paid = isset($_POST['loan_paid']) ? true : false;
