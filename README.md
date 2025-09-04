@@ -51,7 +51,7 @@ This system was created for a **bookshop owner** to manage **book loans with wee
 
 # 🎥 Demo Video
 
-[![Watch the demo](assets/screenshots/demo_preview.gif)](https://youtu.be/VPIRUsDEv3Q)
+[![Watch the demo](assets/screenshots/demo.gif)](https://youtu.be/oMpWci2KXFQ)
 
 ---
 
